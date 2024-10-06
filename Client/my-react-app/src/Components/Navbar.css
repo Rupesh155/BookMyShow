@@ -1,0 +1,96 @@
+*{
+margin: 0;
+padding: 0;
+}
+/* Navbar Styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;  /* White background */
+    padding: 10px 20px;
+    color: #333;  /* Dark color for text */
+    font-family: Arial, sans-serif;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adds shadow for elevation effect */
+  }
+  
+  .navbar-left .logo {
+    width: 120px;
+  }
+  
+  .navbar-middle {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .location {
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .location i {
+    margin-left: 5px;
+  }
+  
+  .search-bar {
+    position: relative;
+  }
+  
+  .search-bar input {
+    width: 400px;
+    padding: 8px 40px 8px 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc; /* Light border */
+  }
+  
+  .search-bar button {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #999;  /* Gray color for the search icon */
+    cursor: pointer;
+  }
+  
+  .navbar-right {
+    display: flex;
+    align-items: center;
+  }
+  
+  .sign-in {
+    background-color: #ff3f6c;  /* Pink color for sign-in button */
+    border: none;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  .profile i {
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;  /* Dark color for the profile icon */
+  }
+  
+  .navbar-right .profile {
+    margin-left: 10px;
+  }
+  
+  /* Optional: Add navigation links */
+  .nav-links a {
+    margin: 0 15px;
+    color: #333; /* Dark text for nav links */
+    text-decoration: none;
+  }
+  
+  .nav-links a:hover {
+    color: #ff3f6c; /* Hover effect */
+  }
+  

@@ -1,7 +1,6 @@
 // twilioService.js
 const twilio = require('twilio');
 
-// Use your Twilio Account SID and Auth Token
 const accountSid = 'ACdc793fa8d3863de168a371a541ca057a'; // Your Account SID from Twilio Console
 const authToken = '33d14fbf349ed16f8884822d99ebf664';   // Your Auth Token from Twilio Console
 
