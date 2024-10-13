@@ -8,10 +8,16 @@
     display: flex;
     justify-content: space-around;
   }
+  .movie-list{
+    display: flex;
+    justify-content: space-around;
+  }
+
   
   .movie-card {
     border: 1px solid #ddd;
     border-radius: 8px;
+    /* display: inline-block; */
     overflow: hidden;
     width: 200px;
     text-align: center;
