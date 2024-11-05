@@ -112,3 +112,41 @@ export default App;
 // }
 
 // export default App
+
+
+
+
+// import React, { useContext, useState } from 'react'
+// import Todo from './Todo'
+// import { context } from './ContextAnu'
+
+// const App = () => {
+//    let {input,arrData,dispatch}=     useContext(context)
+
+//   function fun1(e){
+//     dispatch({
+//       type:"addIn",
+//       payload:e.target.value
+
+//     })
+
+
+
+//   }
+//   function done(){
+//     dispatch({
+//       type:'addTodo',
+//       payload:input
+//     })
+ 
+//   }
+//   return (
+//     <div>
+//       <input onChange={fun1}  placeholder='Enter your todo'/>
+//       <button onClick={done}>add</button>
+//         <Todo   />
+//     </div>
+//   )
+// }
+
+// export default App

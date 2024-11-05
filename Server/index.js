@@ -30,7 +30,7 @@ let cors=require('cors')
 const app = express();
 app.use(cors())
 app.use(express.json());
-
+const Movie = require('./model/movies');
 // Connect to MongoDB
 mongoose.connect('mongodb://localhost:27017/otp', {
 });
@@ -90,6 +90,31 @@ app.post('/verify', async (req, res) => {
     res.status(500).send({ error: 'Failed to verify OTP' });
   }
 });
+
+
+
+
+// Route to add dummy movie data
+app.post('/add-movies', async (req, res) => {
+  try {
+    const movies = req.body; // Expecting movie data in the request body
+    await Movie.insertMany(movies);
+    res.status(200).send('Movies added successfully');
+  } catch (error) {
+    res.status(500).send('Error adding movies: ' + error.message);
+  }
+});
+
+// Route to get all movies
+app.get('/movies', async (req, res) => {
+  try {
+    const movies = await Movie.find({});
+    res.status(200).json(movies);
+  } catch (error) {
+    res.status(500).send('Error fetching movies: ' + error.message);
+  }
+});
+
 
 
 app.listen(8000, () => {

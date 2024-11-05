@@ -51,28 +51,74 @@
 
 // export default MovieCard;
 
+// import React, { useContext } from 'react';
+// import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+// import { MovieContext } from './MovieContext';
+// import './MovieCard.css';
+
+// const MovieCard = () => {
+//   const { state } = useContext(MovieContext); // Access movies from context
+//   const { movies } = state;
+//   console.log(movies,"jejej");
+  
+//   const navigate = useNavigate(); // Initialize navigate
+
+//   // Handle card click and navigate to movie details page
+//   const handleCardClick = (id) => {
+//     navigate(`/movie/${id}`); // Navigate to movie details page using movie id
+//   };
+
+//   return (
+//     <div className="movie-list">
+//       {movies.map((movie) => (
+//         <div
+//           key={movie.id}
+//           className="movie-card"
+//           onClick={() => handleCardClick(movie.id)} // Handle click to navigate
+//         >
+//           <img src={movie.image} alt={movie.title} />
+//           <h2>{movie.title}</h2>
+//           <p>{movie.description}</p>
+//           <p>Release Date: {movie.releaseDate}</p>
+//         </div>
+//       ))}
+//     </div>
+//   );
+// };
+
+// export default MovieCard;
+ 
+
+
+
 import React, { useContext } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import { useNavigate } from 'react-router-dom'; 
 import { MovieContext } from './MovieContext';
 import './MovieCard.css';
 
 const MovieCard = () => {
   const { state } = useContext(MovieContext); // Access movies from context
   const { movies } = state;
+  console.log(movies,"movir");
+  
   const navigate = useNavigate(); // Initialize navigate
 
   // Handle card click and navigate to movie details page
   const handleCardClick = (id) => {
+    console.log(id,"hehehehehe");
+    
     navigate(`/movie/${id}`); // Navigate to movie details page using movie id
   };
 
   return (
     <div className="movie-list">
       {movies.map((movie) => (
+    
+        
         <div
           key={movie.id}
           className="movie-card"
-          onClick={() => handleCardClick(movie.id)} // Handle click to navigate
+          onClick={() => handleCardClick(movie._id)} // Handle click to navigate
         >
           <img src={movie.image} alt={movie.title} />
           <h2>{movie.title}</h2>
