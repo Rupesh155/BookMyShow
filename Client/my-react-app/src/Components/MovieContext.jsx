@@ -49,15 +49,67 @@
 
 
 
+// import React, { createContext, useReducer, useEffect } from 'react';
+// import axios from 'axios';
+
+// // Create a context
+// export const MovieContext = createContext();
+
+// // Initial state (start with an empty array, will be populated after fetching)
+// const initialState = {
+//   movies: [],
+// };
+
+// // Reducer to manage movie state
+// const movieReducer = (state, action) => {
+//   switch (action.type) {
+//     case 'SET_MOVIES':
+//       return {
+//         ...state,
+//         movies: action.payload, // Update movies with fetched data
+//       };
+//     default:
+//       return state;
+//   }
+// };
+
+// // MovieProvider component to wrap the app
+// export const MovieProvider = ({ children }) => {
+//   const [state, dispatch] = useReducer(movieReducer, initialState);
+
+//   // Fetch movies from the backend on component mount
+//   useEffect(() => {
+//     const fetchMovies = async () => {
+//       try {
+//         const response = await axios.get('http://localhost:8000/movies'); // Replace with your backend URL
+//         dispatch({ type: 'SET_MOVIES', payload: response.data });
+//       } catch (error) {
+//         console.error('Error fetching movies:', error);
+//       }
+//     };
+
+//     fetchMovies();
+//   }, []);
+
+//   return (
+//     <MovieContext.Provider value={{ state, dispatch }}>
+//       {children}
+//     </MovieContext.Provider>
+//   );
+// };
+
+
+
 import React, { createContext, useReducer, useEffect } from 'react';
 import axios from 'axios';
 
 // Create a context
 export const MovieContext = createContext();
 
-// Initial state (start with an empty array, will be populated after fetching)
+// Initial state (including selectedCity state)
 const initialState = {
   movies: [],
+  selectedCity: '', // New state to store the selected city
 };
 
 // Reducer to manage movie state
@@ -67,6 +119,11 @@ const movieReducer = (state, action) => {
       return {
         ...state,
         movies: action.payload, // Update movies with fetched data
+      };
+    case 'SET_SELECTED_CITY':
+      return {
+        ...state,
+        selectedCity: action.payload, // Update selected city
       };
     default:
       return state;

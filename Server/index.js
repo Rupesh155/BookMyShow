@@ -124,51 +124,62 @@ app.listen(8000, () => {
 
 
 
-// [
-//   {
-//     "title": "Inception",
-//     "description": "A mind-bending thriller by Christopher Nolan.",
-//     "releaseDate": "2010-07-16",
-//     "image": "https://images.unsplash.com/photo-1613679074971-91fc27180061?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-//     "locations": [
-//       {
-//         "city": "Delhi",
-//         "theater": "PVR Cinemas",
-//         "showtimes": ["10:00 AM", "1:00 PM", "4:00 PM", "7:00 PM"],
-//         "seats": ["A1", "A2", "A3", "B1", "B2", "B3"]
-//       },
-//       {
-//         "city": "Delhi",
-//         "theater": "INOX",
-//         "showtimes": ["11:00 AM", "2:00 PM", "5:00 PM", "8:00 PM"],
-//         "seats": ["A1", "A2", "A3", "B1", "B2", "B3", "C1"]
-//       },
-//       {
-//         "city": "Mumbai",
-//         "theater": "PVR Cinemas",
-//         "showtimes": ["9:00 AM", "12:00 PM", "3:00 PM", "6:00 PM"],
-//         "seats": ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2"]
-//       }
-//     ]
-//   },
-//   {
-//     "title": "Interstellar",
-//     "description": "A journey beyond the stars by Christopher Nolan.",
-//     "releaseDate": "2014-11-07",
-//     "image": "https://images.unsplash.com/photo-1525463072426-4d65f1df37b2?q=80&w=2874&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-//     "locations": [
-//       {
-//         "city": "Mumbai",
-//         "theater": "Cinepolis",
-//         "showtimes": ["9:30 AM", "12:30 PM", "3:30 PM", "6:30 PM"],
-//         "seats": ["A1", "A2", "A3", "B1", "B2", "B3"]
-//       },
-//       {
-//         "city": "Delhi",
-//         "theater": "PVR Cinemas",
-//         "showtimes": ["10:00 AM", "1:00 PM", "4:00 PM", "7:00 PM"],
-//         "seats": ["A1", "A2", "A3", "B1", "B2", "B3"]
-//       }
-//     ]
-//   }
-// ]
+ let movies=  [
+  {
+    "title": "Inception",
+    "description": "A mind-bending thriller by Christopher Nolan.",
+    "releaseDate": "2010-07-16",
+    "image": "https://images.unsplash.com/photo-1613679074971-91fc27180061?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "locations": [
+      {
+        "city": "Delhi",
+        "theater": "PVR Cinemas",
+        "showtimes": ["10:00 AM", "1:00 PM", "4:00 PM", "7:00 PM"],
+        "seats": ["A1", "A2", "A3", "B1", "B2", "B3"]
+      },
+      {
+        "city": "Delhi",
+        "theater": "INOX",
+        "showtimes": ["11:00 AM", "2:00 PM", "5:00 PM", "8:00 PM"],
+        "seats": ["A1", "A2", "A3", "B1", "B2", "B3", "C1"]
+      },
+      {
+        "city": "Mumbai",
+        "theater": "PVR Cinemas",
+        "showtimes": ["9:00 AM", "12:00 PM", "3:00 PM", "6:00 PM"],
+        "seats": ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2"]
+      }
+    ]
+  },
+  {
+    "title": "Interstellar",
+    "description": "A journey beyond the stars by Christopher Nolan.",
+    "releaseDate": "2014-11-07",
+    "image": "https://images.unsplash.com/photo-1525463072426-4d65f1df37b2?q=80&w=2874&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "locations": [
+      {
+        "city": "Mumbai",
+        "theater": "Cinepolis",
+        "showtimes": ["9:30 AM", "12:30 PM", "3:30 PM", "6:30 PM"],
+        "seats": ["A1", "A2", "A3", "B1", "B2", "B3"]
+      },
+      {
+        "city": "Delhi",
+        "theater": "PVR Cinemas",
+        "showtimes": ["10:00 AM", "1:00 PM", "4:00 PM", "7:00 PM"],
+        "seats": ["A1", "A2", "A3", "B1", "B2", "B3"]
+      }
+    ]
+  }
+]
+
+
+const moviesInMumbai = movies
+  .map(movie => ({
+    // ...movie, 
+    locations: movie.locations.filter(location => location.city === "Mumbai") 
+  }))
+
+
+  console.log(JSON.stringify(moviesInMumbai,null,2)); 
+
