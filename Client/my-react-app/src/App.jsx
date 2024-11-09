@@ -60,6 +60,11 @@
 // export default App;
 
 
+
+  
+
+
+
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import MovieCard from './Components/RecommendedMovies'; // Your movie listing page
@@ -80,6 +85,49 @@ function App() {
 }
 
 export default App;
+
+
+
+
+
+// import React, { useContext, useReducer, useState } from 'react'
+// import { Context } from './Components/MovieContext'
+
+// const App = () => {
+
+//     let {state,dispatch}=     useContext(Context)
+//   // function reduser(state,action){
+//   //   if(action.type==='incre'){
+//   //     return state+1
+
+//   //   }
+//   //   else{
+//   //     return state
+//   //   }
+
+//   // }
+//   // let [state,dispatch]=    useReducer(reduser,0)
+//   // let [count,SetCount]=useState(0)
+//   function fun1(){
+    
+//     dispatch({
+//       type:'incre'
+//     })
+//     // console.log('hellooo');
+//     // SetCount(count+1)
+
+
+    
+//   }
+//   return (
+//     <div>
+//       <h3>{state} </h3>
+//       <button onClick={fun1}>click</button>
+//     </div>
+//   )
+// }
+
+// export default App
 
 
 

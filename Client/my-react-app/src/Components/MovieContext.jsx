@@ -1,5 +1,31 @@
 // import React, { createContext, useReducer } from 'react';
 
+// import { createContext,  useReducer } from "react";
+//    export  let Context=   createContext()
+ 
+// const reduser=(state,action)=>{
+//   if(action.type==='incre'){
+//     return state+1
+//   }
+//   else{
+//     return state
+//   }
+
+// }
+
+//      const Todo=({ children })=>{
+//         let [state,dispatch]= useReducer(reduser,0)
+//       return(<>
+//       <Context.Provider value={{state,dispatch}}>
+//       { children }
+//       </Context.Provider>
+//       </>)
+
+//      }
+
+//      export default Todo
+
+
 // // Initial movie data
 // const initialState = {
 //   movies: [
@@ -100,48 +126,112 @@
 
 
 
+// import React, { createContext, useReducer, useEffect } from 'react';
+// import axios from 'axios';
+
+// // Create a context
+// export const MovieContext = createContext();
+
+// // Initial state (including selectedCity state)
+// const initialState = {
+//   movies: [],
+//   selectedCity: '', // New state to store the selected city
+// };
+
+// // Reducer to manage movie state
+// const movieReducer = (state, action) => {
+//   switch (action.type) {
+//     case 'SET_MOVIES':
+//       return {
+//         ...state,
+//         movies: action.payload, // Update movies with fetched data
+//       };
+//     case 'SET_SELECTED_CITY':
+//       return {
+//         ...state,
+//         selectedCity: action.payload, // Update selected city
+//       };
+//     default:
+//       return state;
+//   }
+// };
+
+// // MovieProvider component to wrap the app
+// export const MovieProvider = ({ children }) => {
+//   const [state, dispatch] = useReducer(movieReducer, initialState);
+
+//   // Fetch movies from the backend on component mount
+//   useEffect(() => {
+//     const fetchMovies = async () => {
+//       try {
+//         const response = await axios.get('http://localhost:8000/movies'); // Replace with your backend URL
+//         dispatch({ type: 'SET_MOVIES', payload: response.data });
+//       } catch (error) {
+//         console.error('Error fetching movies:', error);
+//       }
+//     };
+
+//     fetchMovies();
+//   }, []);
+
+//   return (
+//     <MovieContext.Provider value={{ state, dispatch }}>
+//       {children}
+//     </MovieContext.Provider>
+//   );
+// };
+
+
+
+
+// MovieProvider.js
+
 import React, { createContext, useReducer, useEffect } from 'react';
 import axios from 'axios';
 
-// Create a context
 export const MovieContext = createContext();
 
-// Initial state (including selectedCity state)
 const initialState = {
   movies: [],
-  selectedCity: '', // New state to store the selected city
+  showtimes: [],  // New state to store showtime data
+  selectedCity: '',
 };
 
-// Reducer to manage movie state
 const movieReducer = (state, action) => {
   switch (action.type) {
     case 'SET_MOVIES':
       return {
         ...state,
-        movies: action.payload, // Update movies with fetched data
+        movies: action.payload,
+      };
+    case 'SET_SHOWTIMES':  // New action for setting showtime data
+      return {
+        ...state,
+        showtimes: action.payload,
       };
     case 'SET_SELECTED_CITY':
       return {
         ...state,
-        selectedCity: action.payload, // Update selected city
+        selectedCity: action.payload,
       };
     default:
       return state;
   }
 };
 
-// MovieProvider component to wrap the app
 export const MovieProvider = ({ children }) => {
   const [state, dispatch] = useReducer(movieReducer, initialState);
 
-  // Fetch movies from the backend on component mount
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/movies'); // Replace with your backend URL
-        dispatch({ type: 'SET_MOVIES', payload: response.data });
+        const moviesResponse = await axios.get('http://localhost:8000/movies');
+        dispatch({ type: 'SET_MOVIES', payload: moviesResponse.data });
+
+        const showtimesResponse = await axios.get('http://localhost:8000/showtimes'); // Fetch showtimes
+        dispatch({ type: 'SET_SHOWTIMES', payload: showtimesResponse.data });
       } catch (error) {
-        console.error('Error fetching movies:', error);
+        console.error('Error fetching data:', error);
       }
     };
 
@@ -154,3 +244,12 @@ export const MovieProvider = ({ children }) => {
     </MovieContext.Provider>
   );
 };
+
+
+
+
+
+
+
+
+

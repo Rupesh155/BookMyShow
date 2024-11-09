@@ -200,24 +200,21 @@
 
 
 import React, { useContext } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import { MovieContext } from './MovieContext';
 import './MovieCard.css';
 
 const MovieCard = () => {
-  const { state } = useContext(MovieContext); // Access movies from context
-  const { movies, selectedCity } = state; // Get selected city and movies from context
-  const navigate = useNavigate(); // Initialize navigate
+  const { state } = useContext(MovieContext); // Access movies and selectedCity from context
+  const { movies, selectedCity } = state;
+  const navigate = useNavigate();
 
-  // Filter movies based on the selected city
-  const filteredMovies = movies.filter(movie => 
+  const filteredMovies = movies.filter(movie =>
     movie.locations.some(location => location.city === selectedCity)
   );
 
-  // Handle card click and navigate to movie details page
   const handleCardClick = (id) => {
-    console.log(id, "hehehehehe");
-    navigate(`/movie/${id}`); // Navigate to movie details page using movie id
+    navigate(`/movie/${id}`); // Navigate to MovieDetails page with movie ID
   };
 
   return (
@@ -225,9 +222,9 @@ const MovieCard = () => {
       {filteredMovies.length > 0 ? (
         filteredMovies.map((movie) => (
           <div
-            key={movie.id}
+            key={movie._id}
             className="movie-card"
-            onClick={() => handleCardClick(movie._id)} // Handle click to navigate
+            onClick={() => handleCardClick(movie._id)}
           >
             <img src={movie.image} alt={movie.title} />
             <h2>{movie.title}</h2>
@@ -243,5 +240,3 @@ const MovieCard = () => {
 };
 
 export default MovieCard;
-
-
