@@ -117,6 +117,49 @@ app.get('/movies', async (req, res) => {
 
 
 
+
+// routes/paymentRoutes.js
+
+const stripe = require('stripe')('sk_test_51Os8E4SEhF2ghQp3hf7N5NJAQn2DceXv7fuYaVIPtkP97tOxwXPbg1Fe9enZfhx4Px5XirD0v7aFrb4iS8SMxHC200z1EES8ji');
+
+app.post('/payment', async (req, res) => {
+  const { movieId, theater, time, seats, totalAmount } = req.body;
+
+  try {
+    // Create a Stripe checkout session
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'inr',
+            product_data: {
+              name: `Booking for ${seats.length} seats - ${theater} at ${time}`,
+              description: `Movie ID: ${movieId}`,
+            },
+            unit_amount: totalAmount * 100, // Stripe expects amount in the smallest currency unit (e.g., paise)
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      success_url: `http://localhost:3000/success`,
+      cancel_url: `http://localhost:3000/cancel`,
+    });
+
+    // Send the session ID to the frontend
+    res.json({ id: session.id });
+  } catch (error) {
+    console.error("Error creating Stripe session:", error);
+    res.status(500).json({ error: 'Unable to create payment session' });
+  }
+});
+
+
+
+
+
+
 app.listen(8000, () => {
   console.log('Server is running on port 8000');
 });

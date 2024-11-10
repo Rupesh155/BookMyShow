@@ -341,10 +341,126 @@
 
 
 
-import React, { useContext, useState, useEffect } from 'react';
+// import React, { useContext, useState, useEffect } from 'react';
+// import { useParams } from 'react-router-dom';
+// import { MovieContext } from './MovieContext';
+// import './TicketBooking.css';
+
+// const TicketBooking = () => {
+//   const { state } = useContext(MovieContext);
+//   const { id } = useParams(); // Get the movie ID from URL parameters
+//   const [selectedMovie, setSelectedMovie] = useState(null);
+//   const [selectedTheater, setSelectedTheater] = useState('');
+//   const [selectedTime, setSelectedTime] = useState('');
+//   const [selectedSeats, setSelectedSeats] = useState([]);
+
+//   useEffect(() => {
+//     // Find the movie by ID from context state
+//     const movie = state.movies.find((m) => m._id === id);
+//     setSelectedMovie(movie);
+//     setSelectedTheater('');
+//     setSelectedTime('');
+//     setSelectedSeats([]);
+//   }, [id, state.movies]);
+
+//   const handleTheaterSelect = (location) => {
+//     setSelectedTheater(location.theater);
+//     setSelectedTime('');
+//     setSelectedSeats([]);
+//   };
+
+//   const handleTimeSelect = (time) => {
+//     setSelectedTime(time);
+//     setSelectedSeats([]);
+//   };
+
+//   const toggleSeatSelection = (seat) => {
+//     setSelectedSeats((prevSeats) =>
+//       prevSeats.includes(seat) ? prevSeats.filter((s) => s !== seat) : [...prevSeats, seat]
+//     );
+//   };
+
+//   const handleBooking = () => {
+//     if (selectedMovie && selectedTheater && selectedTime && selectedSeats.length > 0) {
+//       alert(`Booking confirmed for ${selectedMovie.title} at ${selectedTheater}, Time: ${selectedTime}, Seats: ${selectedSeats.join(', ')}`);
+//     } else {
+//       alert('Please select a movie, theater, time slot, and seats');
+//     }
+//   };
+
+//   if (!selectedMovie) {
+//     return <p>Loading movie details...</p>;
+//   }
+
+//   return (
+//     <div className="ticket-booking">
+//       <h1>Book Tickets for {selectedMovie.title}</h1>
+      
+//       {/* Theater and Showtimes */}
+//       <div className="theater-selection">
+//         <h2>Select Theater and Showtime</h2>
+//         {selectedMovie.locations.map((location) => (
+//           <div key={location._id} className="theater-card">
+//             <h3>{location.theater}</h3>
+//             <p>City: {location.city}</p>
+//             <div className="time-slots">
+//               {location.showtimes.map((time) => (
+//                 <button
+//                   key={time}
+//                   className={`time-slot ${selectedTheater === location.theater && selectedTime === time ? 'selected' : ''}`}
+//                   onClick={() => {
+//                     handleTheaterSelect(location);
+//                     handleTimeSelect(time);
+//                   }}
+//                 >
+//                   {time}
+//                 </button>
+//               ))}
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+
+//       {/* Seat Selection */}
+//       {selectedTheater && selectedTime && (
+//         <div className="seat-selection">
+//           <h2>Select Your Seats at {selectedTheater}</h2>
+//           <div className="seat-grid">
+//             {selectedMovie.locations
+//               .find((location) => location.theater === selectedTheater)
+//               .seats.map((seat) => (
+//                 <button
+//                   key={seat}
+//                   className={`seat ${selectedSeats.includes(seat) ? 'selected-seat' : ''}`}
+//                   onClick={() => toggleSeatSelection(seat)}
+//                 >
+//                   {seat}
+//                 </button>
+//               ))}
+//           </div>
+//         </div>
+//       )}
+
+//       {/* Confirm Booking Button */}
+//       {selectedTheater && selectedTime && selectedSeats.length > 0 && (
+//         <button className="book-now-btn" onClick={handleBooking}>
+//           Book Now
+//         </button>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default TicketBooking;
+
+
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
+import { loadStripe } from '@stripe/stripe-js';
 import { MovieContext } from './MovieContext';
 import './TicketBooking.css';
+
+const stripePromise = loadStripe("pk_test_51Os8E4SEhF2ghQp3XHXBDJU6mg4MgQvqxMyH9zs14Wroo0geX7yNvfQuqwdIjNC3xQk5DUZZUE2b69BXTH9AaGfL00vBl5hq9k");
 
 const TicketBooking = () => {
   const { state } = useContext(MovieContext);
@@ -353,6 +469,7 @@ const TicketBooking = () => {
   const [selectedTheater, setSelectedTheater] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
   const [selectedSeats, setSelectedSeats] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     // Find the movie by ID from context state
@@ -380,9 +497,48 @@ const TicketBooking = () => {
     );
   };
 
+  const handlePayment = async () => {
+    setLoading(true);
+    const stripe = await stripePromise;
+
+    // Calculate total price based on seats
+    const totalPrice = selectedSeats.length * 100; // Assuming each seat is ₹100; adjust as needed
+
+    const body = {
+      movieId: selectedMovie._id,
+      theater: selectedTheater,
+      time: selectedTime,
+      seats: selectedSeats,
+      totalAmount: totalPrice,
+    };
+
+    const headers = {
+      "Content-Type": "application/json"
+    };
+
+    // Make a request to the backend to create a checkout session
+    const response = await fetch("http://localhost:8000/payment", {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(body)
+    });
+
+    const session = await response.json();
+
+    const result = await stripe.redirectToCheckout({
+      sessionId: session.id
+    });
+
+    if (result.error) {
+      console.log(result.error.message);
+    }
+    setLoading(false);
+  };
+
   const handleBooking = () => {
     if (selectedMovie && selectedTheater && selectedTime && selectedSeats.length > 0) {
-      alert(`Booking confirmed for ${selectedMovie.title} at ${selectedTheater}, Time: ${selectedTime}, Seats: ${selectedSeats.join(', ')}`);
+      // If booking details are complete, start payment process
+      handlePayment();
     } else {
       alert('Please select a movie, theater, time slot, and seats');
     }
@@ -443,8 +599,8 @@ const TicketBooking = () => {
 
       {/* Confirm Booking Button */}
       {selectedTheater && selectedTime && selectedSeats.length > 0 && (
-        <button className="book-now-btn" onClick={handleBooking}>
-          Book Now
+        <button className="book-now-btn" onClick={handleBooking} disabled={loading}>
+          {loading ? 'Processing...' : 'Book Now'}
         </button>
       )}
     </div>
